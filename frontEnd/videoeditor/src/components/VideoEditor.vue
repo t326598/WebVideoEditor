@@ -3,90 +3,141 @@
     <h2>영상 자르기 데모</h2>
     <input type="file" @change="handleFile" accept="video/mp4" />
     <video v-if="videoUrl" controls :src="videoUrl" style="max-width: 100%; margin-top: 10px;" />
+    <br>
 
     <div v-if="videoUrl" style="margin-top: 10px;">
+      <p v-if="isLoadingFFmpeg">FFmpeg 로딩 중... 잠시만 기다려 주세요.</p>
+      <p v-if="loadError" style="color: red;">FFmpeg 로드 오류: {{ loadError }}</p>
       <label>시작 시간 (초): <input v-model="start" type="number" /></label>
       <label>끝 시간 (초): <input v-model="end" type="number" /></label>
-      <button @click="cutVideo">자르기</button>
+      <button @click="cutVideo" :disabled="isLoadingFFmpeg || loadError || !file">자르기</button>
     </div>
 
     <div v-if="outputUrl" style="margin-top: 10px;">
       <h3>잘라낸 영상</h3>
       <video controls :src="outputUrl" style="max-width: 100%;" />
       <a :href="outputUrl" download="cut-output.mp4">다운로드</a>
-    </div>
+
+      </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'; // onMounted 훅을 추가합니다.
+import { ref, onMounted } from 'vue';
 import { FFmpeg } from '@ffmpeg/ffmpeg';
 import { fetchFile } from '@ffmpeg/util';
 
-console.log("나옴?");
-console.log(fetchFile);
-console.log(FFmpeg);
-
-// createFFmpeg 대신 FFmpeg 클래스를 사용하여 인스턴스를 생성합니다.
-// 초기에는 null로 설정하고, onMounted 훅에서 로드합니다.
-const ffmpeg = ref(null);
+let ffmpegInstance = null;
 
 const file = ref(null);
 const videoUrl = ref(null);
 const outputUrl = ref(null);
+// const thumbnailUrl = ref(null); // 썸네일 관련 변수 제거
+// const thumbnailSecond = 1; // 썸네일 관련 변수 제거
+
 const start = ref(0);
 const end = ref(5);
+const isLoadingFFmpeg = ref(true);
+const loadError = ref(null);
 
-// 컴포넌트가 마운트될 때 FFmpeg 인스턴스를 초기화하고 로드합니다.
 onMounted(async () => {
-  ffmpeg.value = new FFmpeg({ log: true });
-  // FFmpeg 코어 로드 전에 로드 상태를 확인하는 것은 불필요하며 오류를 발생시킬 수 있습니다.
-  // 바로 load()를 호출하여 코어를 로드합니다.
-  await ffmpeg.value.load();
-  console.log('FFmpeg 로드 완료!');
+  try {
+    ffmpegInstance = new FFmpeg({
+      log: true,
+      baseURL: 'https://unpkg.com/@ffmpeg/core@0.12.10/dist/esm',
+    });
+
+    ffmpegInstance.on('log', ({ message }) => {
+      console.log(`[ffmpeg log]: ${message}`);
+    });
+
+    await ffmpegInstance.load();
+    isLoadingFFmpeg.value = false;
+    console.log('✅ FFmpeg 로드 완료!');
+  } catch (err) {
+    isLoadingFFmpeg.value = false;
+    console.group('❌ FFmpeg 로드 중 에러 상세 정보');
+    console.error('원본 에러 객체:', err);
+    console.error('에러 이름:', err.name);
+    console.error('에러 메시지:', err.message);
+    if (err.stack) {
+      console.error('에러 스택:', err.stack);
+    }
+    console.groupEnd();
+    loadError.value = err.message || err.name || '알 수 없는 FFmpeg 로드 오류';
+    alert(`FFmpeg 로드 실패: ${loadError.value}. 콘솔을 확인해주세요.`);
+  }
 });
 
 const handleFile = (e) => {
   file.value = e.target.files[0];
-  videoUrl.value = URL.createObjectURL(file.value);
+  if (file.value) {
+    videoUrl.value = URL.createObjectURL(file.value);
+    console.log(videoUrl.value)
+  } else {
+    videoUrl.value = null;
+  }
+  outputUrl.value = null;
+  // thumbnailUrl.value = null; // 썸네일 관련 변수 초기화 제거
 };
 
 const cutVideo = async () => {
-  // ffmpeg 인스턴스가 로드되었는지 확인합니다.
-  if (!ffmpeg.value || !ffmpeg.value.loaded) { // loaded 속성을 사용해 로드 여부 확인
-    console.error('FFmpeg이 아직 로드되지 않았습니다!');
-    alert('FFmpeg을 로드 중입니다. 잠시 후 다시 시도해주세요.');
+  if (isLoadingFFmpeg.value || loadError.value || !file.value) return;
+
+  if (start.value < 0 || end.value <= start.value) {
+    alert('유효한 시작 및 종료 시간을 입력해주세요.');
     return;
   }
 
-  // 파일 시스템에 비디오 파일을 씁니다.
-  await ffmpeg.value.writeFile('input.mp4', await fetchFile(file.value));
+  try {
+    console.log('✂️ 비디오 자르기 시작...');
+    await ffmpegInstance.writeFile('input.mp4', await fetchFile(file.value));
+    console.log("나옴?")
 
-  // FFmpeg 명령에 사용할 시작 및 종료 시간을 포맷합니다.
-  // 초 단위 입력이므로 HH:MM:SS 형식으로 변환합니다.
-  const formatTime = (seconds) => {
-    const s = String(Math.floor(seconds % 60)).padStart(2, '0');
-    const m = String(Math.floor((seconds / 60) % 60)).padStart(2, '0');
-    const h = String(Math.floor(seconds / 3600)).padStart(2, '0');
-    return `${h}:${m}:${s}`;
-  };
+    const formatTime = (seconds) => {
+      const date = new Date(null);
+      date.setSeconds(seconds);
+      return date.toISOString().substr(11, 8);
+    };
 
-  const startTime = formatTime(start.value);
-  const endTime = formatTime(end.value);
+    const startTime = formatTime(start.value);
+    const endTime = formatTime(end.value);
+    await ffmpegInstance.run(
+      '-i', 'input.mp4',
+      '-ss', startTime,
+      '-to', endTime,
+      '-c', 'copy',
+      'output.mp4'
+    );
+   console.log("나옴?")
+    const data = await ffmpegInstance.readFile('output.mp4');
+    const blob = new Blob([data.buffer], { type: 'video/mp4' });
+    outputUrl.value = URL.createObjectURL(blob);
 
-  // FFmpeg 명령 실행
-  await ffmpeg.value.run(
-    '-i', 'input.mp4',
-    '-ss', startTime,
-    '-to', endTime,
-    '-c', 'copy', // 비디오 스트림을 복사하여 재인코딩 없이 빠르게 자릅니다.
-    'output.mp4'
-  );
+    // 📸 썸네일 생성 로직 제거
+    /*
+    const thumbnailTime = formatTime(start.value + thumbnailSecond);
+    console.log(`📸 썸네일 추출 위치: ${thumbnailTime}`);
 
-  // 잘라낸 비디오 파일을 읽어와서 Blob으로 변환합니다.
-  const data = await ffmpeg.value.readFile('output.mp4');
-  const blob = new Blob([data.buffer], { type: 'video/mp4' });
-  outputUrl.value = URL.createObjectURL(blob);
+    await ffmpegInstance.run(
+      '-i', 'input.mp4',
+      '-ss', thumbnailTime,
+      '-vframes', '1',
+      '-q:v', '2',
+      'thumbnail.jpg'
+    );
+
+    const thumbData = await ffmpegInstance.readFile('thumbnail.jpg');
+    const thumbBlob = new Blob([thumbData.buffer], { type: 'image/jpeg' });
+    thumbnailUrl.value = URL.createObjectURL(thumbBlob);
+    */
+
+    console.log('✅ 비디오 자르기 완료!'); // 메시지 수정
+
+  } catch (error) {
+    console.error('❌ 비디오 자르기 중 에러:', error); // 에러 메시지 수정
+    alert(`비디오 자르기 실패: ${error.message}`);
+  }
 };
 </script>
 

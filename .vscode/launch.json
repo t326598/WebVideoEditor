@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-VideoeditorApplication<videoeditor>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.videoeditor.videoeditor.VideoeditorApplication",
+            "projectName": "videoeditor",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
