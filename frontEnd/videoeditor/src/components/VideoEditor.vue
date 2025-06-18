@@ -28,6 +28,7 @@
     <div v-if="outputUrl" style="margin-top: 10px;">
       <h3>잘라낸 영상</h3>
       <video controls :src="outputUrl" style="max-width: 100%;" />
+      <br>
       <a :href="outputUrl" download="cut-output.mp4">다운로드</a>
     </div>
   </div>
