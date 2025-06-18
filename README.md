@@ -62,7 +62,7 @@
 </div>
 
 <img src="https://github.com/user-attachments/assets/3852ad9f-702b-4bef-9cdd-ddce9f626b2e" alt="트러블슈팅 1" style="display:block; margin:0 auto; max-width:80%;" />
-
+<br><br>
 <div align="left">
 
 기존 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg' 방식으로는 createFFmpeg를 인식하지 못하는 현상 발생  
@@ -71,7 +71,7 @@
 </div>
 
 <img src="https://github.com/user-attachments/assets/cb1fdebf-e138-4f5d-a988-f660679aa036" alt="트러블슈팅 2" style="display:block; margin:0 auto; max-width:80%;" />
-
+<br><br>
 <div align="left">
 
 0.12버전에서는 ESM기반 브라우저 전용 구조로 변경되어, 기존 방식에서 new FFmpeg()를 사용하는 방식으로 변경됨  
@@ -80,7 +80,7 @@
 </div>
 
 <img src="https://github.com/user-attachments/assets/7670a569-e465-4330-b165-9cd4bd3aa04a" alt="트러블슈팅 3" style="display:block; margin:0 auto; max-width:80%;" />
-
+<br><br>
 <div align="left">
 
 외부경로에서 가져오는 데이터인 만큼 CORS 설정 이 필요하며 직접 스크립트 파일을 다운받아서 지정해줘도 무방함
@@ -88,7 +88,7 @@
 </div>
 
 <img src="https://github.com/user-attachments/assets/405107e1-989c-4ab3-a1d3-5f01f40a4d13" alt="트러블슈팅 4" style="display:block; margin:0 auto; max-width:80%;" />
-
+<br><br>
 <div align="left">
 
 기존 <code>await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:02', '-to', '00:00:06', '-c', 'copy', 'output.mp4');</code> 형식에서 파일이 인식되지 않는 에러 발생  
