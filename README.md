@@ -7,7 +7,7 @@
 </p>
 
 <p style="text-align:center;">
-  <a href="https://6852e9535e51ac294c207bee--timely-queijadas-e93381.netlify.app/" target="_blank" rel="noopener noreferrer">📝 배포 페이지</a>
+  <a  style="text-align:center;" href="https://6852e9535e51ac294c207bee--timely-queijadas-e93381.netlify.app/" target="_blank" rel="noopener noreferrer">📝 배포 페이지</a>
 </p>
 
 <h2>📚 <strong>프로젝트 목차</strong></h2>
