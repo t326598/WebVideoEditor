@@ -43,9 +43,8 @@
 ><br>
 </div>
 
-<img src="![bandicam 2025-06-19 01-15-36-443](https://github.com/user-attachments/assets/e269e715-aa92-48e4-96ce-5e3c20796bb4)
+![bandicam 2025-06-19 01-15-36-443](https://github.com/user-attachments/assets/e269e715-aa92-48e4-96ce-5e3c20796bb4)
 
-" alt="영상 구간 선택 및 병합" style="display:block; margin:0 auto; max-width:80%;" />
 <br><br><br>
 <div align="left">
 
