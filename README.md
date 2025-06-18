@@ -1,10 +1,12 @@
-<div align="center">
+<div>
 
 # WebVideoEditor(Vue3.0 + FFmpeg 0.12)
 
 ### Web 기반 영상 편집기 프로젝트입니다.
 
-![영상 편집 데모](https://github.com/user-attachments/assets/2650b9ec-e4f1-46db-9ae2-cdfd2abd2378)
+<img src="https://github.com/user-attachments/assets/2650b9ec-e4f1-46db-9ae2-cdfd2abd2378" alt="영상 편집 데모" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 [📝 배포 페이지](https://6852e9535e51ac294c207bee--timely-queijadas-e93381.netlify.app/)
 
@@ -30,11 +32,19 @@
 ### 💡 주요기능
 - **영상 선택 및 미리보기 기능**
 
-![미리보기 화면](https://github.com/user-attachments/assets/81415c1d-8b0e-4808-804b-683aa879f620)
+</div>
+
+<img src="https://github.com/user-attachments/assets/81415c1d-8b0e-4808-804b-683aa879f620" alt="미리보기 화면" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 영상 선택시 미리보기 화면이 등장하며 원하는 부분을 초단위로 나눠서 선택할 수 있습니다.
 
-![영상 구간 선택 및 병합](https://github.com/user-attachments/assets/72247bc7-d7ef-4bc8-a875-a92c9b9160e9)
+</div>
+
+<img src="https://github.com/user-attachments/assets/72247bc7-d7ef-4bc8-a875-a92c9b9160e9" alt="영상 구간 선택 및 병합" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 특정 부분만 나눌수도 있지만 여러구간을 선택해 자르고 병합하여 영상을 만들 수도 있습니다.
 
@@ -48,23 +58,39 @@
 
 ## 💡 2. 트러블슈팅
 
-![트러블슈팅 1](https://github.com/user-attachments/assets/3852ad9f-702b-4bef-9cdd-ddce9f626b2e)
+</div>
+
+<img src="https://github.com/user-attachments/assets/3852ad9f-702b-4bef-9cdd-ddce9f626b2e" alt="트러블슈팅 1" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 기존 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg' 방식으로는 createFFmpeg를 인식하지 못하는 현상 발생  
 0.10 버전에서는 CJS기반 방식으로 createFFmpeg()를 사용할 수 있었지만
 
-![트러블슈팅 2](https://github.com/user-attachments/assets/cb1fdebf-e138-4f5d-a988-f660679aa036)
+</div>
+
+<img src="https://github.com/user-attachments/assets/cb1fdebf-e138-4f5d-a988-f660679aa036" alt="트러블슈팅 2" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 0.12버전에서는 ESM기반 브라우저 전용 구조로 변경되어, 기존 방식에서 new FFmpeg()를 사용하는 방식으로 변경됨  
 이후에도 FFmpeg 로드하지 못하는 에러 발생 ESM 방식일때는 필요 리소스인 ffmpeg-core, wasm, worker.js들을 가져와야하기에 baseURL 경로 설정이 필수이며 보통 CDN 경로를 사용하는게 일반적입니다.
 
-![트러블슈팅 3](https://github.com/user-attachments/assets/7670a569-e465-4330-b165-9cd4bd3aa04a)
+</div>
+
+<img src="https://github.com/user-attachments/assets/7670a569-e465-4330-b165-9cd4bd3aa04a" alt="트러블슈팅 3" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
 
 외부경로에서 가져오는 데이터인 만큼 CORS 설정 이 필요하며 직접 스크립트 파일을 다운받아서 지정해줘도 무방함
 
-![트러블슈팅 4](https://github.com/user-attachments/assets/405107e1-989c-4ab3-a1d3-5f01f40a4d13)
+</div>
 
-기존 `await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:02', '-to', '00:00:06', '-c', 'copy', 'output.mp4');` 형식에서 파일이 인식되지 않는 에러 발생  
+<img src="https://github.com/user-attachments/assets/405107e1-989c-4ab3-a1d3-5f01f40a4d13" alt="트러블슈팅 4" style="display:block; margin:0 auto; max-width:80%;" />
+
+<div align="left">
+
+기존 <code>await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:02', '-to', '00:00:06', '-c', 'copy', 'output.mp4');</code> 형식에서 파일이 인식되지 않는 에러 발생  
 0.12버전에서는 run 형식을 지원하지 않고 exec를 사용해 코드 로드해줘야함
 
 ---
