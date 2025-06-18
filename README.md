@@ -36,18 +36,19 @@
 
 <img src="https://github.com/user-attachments/assets/81415c1d-8b0e-4808-804b-683aa879f620" alt="미리보기 화면" style="display:block; margin:0 auto; max-width:80%;" />
 
+<br><br><br>
 <div align="left">
 
 영상 선택시 미리보기 화면이 등장하며 원하는 부분을 초단위로 나눠서 선택할 수 있습니다.
-
+><br>
 </div>
 
 <img src="https://github.com/user-attachments/assets/72247bc7-d7ef-4bc8-a875-a92c9b9160e9" alt="영상 구간 선택 및 병합" style="display:block; margin:0 auto; max-width:80%;" />
-
+<br><br><br>
 <div align="left">
 
 특정 부분만 나눌수도 있지만 여러구간을 선택해 자르고 병합하여 영상을 만들 수도 있습니다.
-
+<br>
 ### 💡 사용 기술
 - 사용 언어 : HTML5, CSS3, Java, JavaScript  
 - 프론트엔드 : Vue.js 3.0, FFmpeg 0.12  
