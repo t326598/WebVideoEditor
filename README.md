@@ -1,14 +1,57 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WebVideoEditor(Vue3.0 + FFmpeg 0.12)</title>
+<style>
+  body {
+    max-width: 900px;
+    margin: 0 auto;
+    font-family: 'Noto Sans KR', sans-serif;
+    line-height: 1.6;
+    color: #333;
+  }
+  h1, h2, h3, p, ul, li, a, code {
+    text-align: center;
+  }
+  ul {
+    list-style-position: inside;
+    padding-left: 0;
+  }
+  ul li {
+    margin: 0.7em 0;
+  }
+  img {
+    max-width: 80%;
+    margin: 1em auto;
+    display: block;
+  }
+  a {
+    display: inline-block;
+    margin: 1em auto;
+    font-weight: bold;
+    font-size: 1.1rem;
+    text-decoration: none;
+    color: #0066cc;
+  }
+  code {
+    background-color: #f4f4f4;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-family: Consolas, monospace;
+  }
+</style>
+</head>
+<body>
+
 <h1>WebVideoEditor(Vue3.0 + FFmpeg 0.12)</h1>
 
 <h3>Web 기반 영상 편집기 프로젝트입니다.</h3>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/2650b9ec-e4f1-46db-9ae2-cdfd2abd2378" alt="영상 편집 데모" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/2650b9ec-e4f1-46db-9ae2-cdfd2abd2378" alt="영상 편집 데모" />
 
-<p style="text-align:center;">
-  <a href="https://6852e9535e51ac294c207bee--timely-queijadas-e93381.netlify.app/" target="_blank" rel="noopener noreferrer">📝 배포 페이지</a>
-</p>
+<a href="https://6852e9535e51ac294c207bee--timely-queijadas-e93381.netlify.app/" target="_blank" rel="noopener noreferrer">📝 배포 페이지</a>
 
 <h2>📚 <strong>프로젝트 목차</strong></h2>
 
@@ -38,15 +81,11 @@
   <li><strong>영상 선택 및 미리보기 기능</strong></li>
 </ul>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/81415c1d-8b0e-4808-804b-683aa879f620" alt="미리보기 화면" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/81415c1d-8b0e-4808-804b-683aa879f620" alt="미리보기 화면" />
 
 <p>영상 선택시 미리보기 화면이 등장하며 원하는 부분을 초단위로 나눠서 선택할 수 있습니다.</p>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/72247bc7-d7ef-4bc8-a875-a92c9b9160e9" alt="영상 구간 선택 및 병합" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/72247bc7-d7ef-4bc8-a875-a92c9b9160e9" alt="영상 구간 선택 및 병합" />
 
 <p>특정 부분만 나눌수도 있지만 여러구간을 선택해 자르고 병합하여 영상을 만들 수도 있습니다.</p>
 
@@ -60,29 +99,21 @@
 
 <h2>💡 2. 트러블슈팅</h2>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/3852ad9f-702b-4bef-9cdd-ddce9f626b2e" alt="트러블슈팅 1" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/3852ad9f-702b-4bef-9cdd-ddce9f626b2e" alt="트러블슈팅 1" />
 
 <p>기존 import { createFFmpeg, fetchFile } from '@ffmpeg/ffmpeg' 방식으로는 createFFmpeg를 인식하지 못하는 현상 발생</p>
 <p>0.10 버전에서는 CJS기반 방식으로 createFFmpeg()를 사용할 수 있었지만</p>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/cb1fdebf-e138-4f5d-a988-f660679aa036" alt="트러블슈팅 2" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/cb1fdebf-e138-4f5d-a988-f660679aa036" alt="트러블슈팅 2" />
 
 <p>0.12버전에서는 ESM기반 브라우저 전용 구조로 변경되어, 기존 방식에서 new FFmpeg()를 사용하는 방식으로 변경됨</p>
 <p>이후에도 FFmpeg 로드하지 못하는 에러 발생 ESM 방식일때는 필요 리소스인 ffmpeg-core, wasm, worker.js들을 가져와야하기에 baseURL 경로 설정이 필수이며 보통 CDN 경로를 사용하는게 일반적입니다.</p>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/7670a569-e465-4330-b165-9cd4bd3aa04a" alt="트러블슈팅 3" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/7670a569-e465-4330-b165-9cd4bd3aa04a" alt="트러블슈팅 3" />
 
 <p>외부경로에서 가져오는 데이터인 만큼 CORS 설정 이 필요하며 직접 스크립트 파일을 다운받아서 지정해줘도 무방함</p>
 
-<p style="text-align:center;">
-  <img src="https://github.com/user-attachments/assets/405107e1-989c-4ab3-a1d3-5f01f40a4d13" alt="트러블슈팅 4" style="max-width: 80%;"/>
-</p>
+<img src="https://github.com/user-attachments/assets/405107e1-989c-4ab3-a1d3-5f01f40a4d13" alt="트러블슈팅 4" />
 
 <p>기존 <code>await ffmpeg.run('-i', 'input.mp4', '-ss', '00:00:02', '-to', '00:00:06', '-c', 'copy', 'output.mp4');</code> 형식에서 파일이 인식되지 않는 에러 발생</p>
 <p>0.12버전에서는 run 형식을 지원하지 않고 exec를 사용해 코드 로드해줘야함</p>
@@ -105,3 +136,6 @@
   <li><strong>필터 구현</strong><br/>
   FFmpeg filter graph를 사용해 필터 버튼 구현이 필요합니다.</li>
 </ul>
+
+</body>
+</html>
